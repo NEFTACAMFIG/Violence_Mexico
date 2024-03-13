@@ -1,0 +1,195 @@
+# Studying data violence in Mexico
+
+# Objective: Violence in Mexico is a recurring topic. It is important to understand the data and factors that contribute to this issue. 
+#We should investigate further. Are there any underlying causes?
+
+#Importando las librerias necesarias para procesar y visualizar los datos
+import numpy as mp
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from google.colab import drive
+from IPython.display import HTML
+import plotly.express as px
+
+#Importando los datos con los que se van a trabajar
+df_2015 = pd.read_csv("2015_datos_violencia_delictiva.csv")
+df_2016 = pd.read_csv('2016_datos_violencia_delictiva.csv')
+df_2017 = pd.read_csv('2017_datos_violencia_delictiva.csv')
+df_2018 = pd.read_csv('2018_datos_violencia_delictiva.csv')
+df_2019 = pd.read_csv('2019_datos_violencia_delictiva.csv')
+df_2020 = pd.read_csv('2020_datos_violencia_delictiva.csv')
+df_PIB = pd.read_csv('PIBE_2.csv')
+
+# Question 1. What is the trend of criminal acts in Mexico over the years?. 
+# To answer the first question, we obtain the total number of crimes committed in the country each year from 2015-2020, in order to identify any trends in the data. 
+
+# 2015
+df_T2015 = df_2015.copy() #Se crea una copia de los datos que se van a trabajar
+
+#Se crea una lista, con el nombre de las columnas de los datos
+suma_lista = list(df_T2015)
+#Se eliminan de la lista la columnas que no se van a utilizar
+suma_lista.remove('Clave_Ent')
+suma_lista.remove('Año')
+suma_lista.remove('Cve. Municipio')
+
+#Se agrega la columna "Total", la cual contiene la suma de todos los delitos realizados en un año por cada municipio 
+df_T2015['Total'] = df_T2015[suma_lista].sum(axis=1)
+
+#Se suman todos los delitos realizados en un año para conocer la cifra total
+df_T2015 = df_T2015['Total'].groupby(df_T2015['Año']).sum()
+df_T2015 = df_T2015.to_frame().reset_index()
+df_T2015
+
+# 2016
+df_T2016 = df_2016.copy()
+
+suma_lista = list(df_T2016)
+suma_lista.remove('Clave_Ent')
+suma_lista.remove('Año')
+suma_lista.remove('Cve. Municipio')
+
+df_T2016['Total'] = df_T2016[suma_lista].sum(axis=1)
+
+df_T2016 = df_T2016['Total'].groupby(df_T2016['Año']).sum()
+df_T2016 = df_T2016.to_frame().reset_index()
+df_T2016
+
+# 2017
+df_T2017 = df_2017.copy()
+
+suma_lista = list(df_T2017)
+suma_lista.remove('Clave_Ent')
+suma_lista.remove('Año')
+suma_lista.remove('Cve. Municipio')
+
+df_T2017['Total'] = df_T2017[suma_lista].sum(axis=1)
+
+df_T2017 = df_T2017['Total'].groupby(df_T2017['Año']).sum()
+df_T2017 = df_T2017.to_frame().reset_index()
+df_T2017
+
+# 2018
+df_T2018 = df_2018.copy()
+
+suma_lista = list(df_T2018)
+suma_lista.remove('Clave_Ent')
+suma_lista.remove('Año')
+suma_lista.remove('Cve. Municipio')
+
+df_T2018['Total'] = df_T2018[suma_lista].sum(axis=1)
+
+df_T2018 = df_T2018['Total'].groupby(df_T2018['Año']).sum()
+df_T2018 = df_T2018.to_frame().reset_index()
+df_T2018
+
+# 2019
+df_T2019 = df_2019.copy()
+
+suma_lista = list(df_T2019)
+suma_lista.remove('Clave_Ent')
+suma_lista.remove('Año')
+suma_lista.remove('Cve. Municipio')
+
+df_T2019['Total'] = df_T2019[suma_lista].sum(axis=1)
+
+df_T2019 = df_T2019['Total'].groupby(df_T2019['Año']).sum()
+df_T2019 = df_T2019.to_frame().reset_index()
+df_T2019
+
+# 2020
+df_T2020 = df_2020.copy()
+
+suma_lista = list(df_T2020)
+suma_lista.remove('Clave_Ent')
+suma_lista.remove('Año')
+suma_lista.remove('Cve. Municipio')
+
+df_T2020['Total'] = df_T2020[suma_lista].sum(axis=1)
+
+df_T2020 = df_T2020['Total'].groupby(df_T2020['Año']).sum()
+df_T2020 = df_T2020.to_frame().reset_index()
+
+# Data 2015-2020
+# The data obtained is joined to form a new Dataframe with all the data obtained in the previous sections
+
+#Con el comando concat se unen los datos obtenidos de los procesos anteriores, y se resetan los indices para para evitar duplicados y acomodar nuestros datos 
+df_Total = pd.concat([df_T2015,df_T2016,df_T2017,df_T2018,df_T2019,df_T2020])
+df_Total = df_Total.reset_index()
+
+# Visualization of the data
+# Two graphs were chosen to visualize the results, a bar graph and a trend line, to know if there is a trend over the years regarding crimes committed in Mexico.
+
+sns.set()
+fig, axes = plt.subplots(1,2)
+ax = sns.barplot(data = df_Total, x = 'Año', y = 'Total',ax=axes[0])
+ax.set_xticklabels(ax.get_xticklabels(),rotation=45,fontsize = 15)
+ax.set_title('Total de delitos 2015-2020',fontsize = 25)
+ax.set_ylabel('Total de delitos cometidos',fontsize = 20)
+ax.set_xlabel('Año',fontsize = 20)
+
+bx = sns.lineplot(data=df_Total, x='Año', y = 'Total', ax=axes[1])
+bx.set_title('Tendencia de delitos 2015-2020',fontsize = 25)
+bx.set_xticklabels(['2015','2015','2016','2017','2018','2019','2020'],fontsize = 15)
+bx.set_ylabel('Total de delitos cometidos',fontsize = 20)
+bx.set_xlabel('Año',fontsize = 20)
+
+plt.rcParams["figure.figsize"] = (20,10)
+fig.tight_layout()
+
+# Question 2. Does violence have a correlation with the GDP generated by each state?
+# To answer this question, another Dataset had to be taken, this time from the INEGI page, which contains GDP data by state from 2003 to 2020. 
+#It was chosen to analyze the year 2019 since it marks the end of a trend that the data was following. 
+#Furthermore, the year 2020 marked the beginning of the covid 19 pandemic, so to analyze this data, more factors would probably have to be analyzed.
+
+df_PIB1 = df_PIB.copy() #Se hace una copia del Dataset original
+df_PIB1 = df_PIB1.drop(['2003','2004','2005','2006','2007',
+          '2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2020 P'],axis=1)#Se eliminan las columnas de datos que no se utilizaran
+df_PIB1 = df_PIB1.drop([0,1,2,3,4,5], axis=0)#Se eliminan las filas de datos que no se utilizaran
+df_PIB1 = df_PIB1.reset_index()
+df_PIB1= df_PIB1.drop(df_PIB1[df_PIB1['index']>37].index)#Más filas que no se utilizaran
+df_PIB1 = df_PIB1.drop(['index'],axis=1)
+
+df_PIB1 = df_PIB1.rename(columns = {'Concepto': 'Entidad', '2019 R':'PIB', 'Total':'Total de delitos cometidos'})#Se renombran las columnas 
+
+# Procesando los datos para obtener el total de delitos cometidos por entidad federativa en el año 2019
+
+df_2019C = df_2019.copy()#Se hace una copia del Dataset original
+
+#Se remueven las columnas con valores numericos y que no se utilizaran en nuestra siguiente operación
+suma_lista = list(df_2019C)
+suma_lista.remove('Clave_Ent')
+suma_lista.remove('Año')
+suma_lista.remove('Cve. Municipio')
+
+#Se suman todos los datos cometidos a lo largo del año
+df_2019C['Total de delitos cometidos'] = df_2019C[suma_lista].sum(axis=1)
+#df_2019C.head()
+
+#Se agrupan los datos por entidad federativa
+df_2019CF = df_2019C['Total de delitos cometidos'].groupby(df_2019C['Entidad']).sum()
+df_2019CF = df_2019CF.to_frame().reset_index()
+
+# The data on crimes committed by federal entity and the GDP by federal entity are joined to create a new Dataset that contains these data
+
+#Se unen los datos del PIB por entidad federativa y los datos de los delitos cometidos por entidad federativa
+df_PIBM = pd.merge(df_PIB1,df_2019CF)
+df_PIBM = df_PIBM.reindex(columns =['Total de delitos cometidos','PIB','Entidad'])
+df_PIBM2 = df_PIBM.copy() 
+df_PIBM = df_PIBM.pivot_table('PIB','Total de delitos cometidos','Entidad')
+
+# Visualization
+sns.color_palette('dark')
+plt.figure(figsize=(30,10))
+cx = sns.heatmap(df_PIBM, cmap='viridis',square = True, robust = True, linewidth = 1, xticklabels = True)
+cx.set_title('Correlación de delitos cometidos y PIB por entidad federativa', fontsize = 20)
+cx.set_ylabel('Total de delitos cometidos',fontsize = 20)
+cx.set_xlabel('Entidad',fontsize = 20)
+plt.show()
+
+# Other option
+fig = px.scatter(df_PIBM2, x = 'PIB', y = 'Total de delitos cometidos',
+    color = 'Entidad', size = 'PIB')
+fig.update_layout(title_text = 'Relación de PIB - Delitos cometidos por entidad federativa en México 2019', title_x = 0.42)
+fig.show()
