@@ -12,6 +12,6 @@ The objective of the project was to answers the following questions:
 
 The conclusions for these questions after cleaning and visualizing the data are the following: 
 
-1. Question 1: The crimes committed in Mexico had a positive trend until 2020, some factors that could have affected the change in trend are: the change in policy towards the security of citizens, improvement of the security system in the country or a change in thinking between society resulting in a lower incidence of crime. However, the factor that could be more powerful and the trigger for the change in trend could be the COVID-19 pandemic, because people's mobility was greatly limited, criminals could not find people to harm, so that the number of crimes committed dropped considerably.
+- Question 1: The crimes committed in Mexico had a positive trend until 2020, some factors that could have affected the change in trend are: the change in policy towards the security of citizens, improvement of the security system in the country or a change in thinking between society resulting in a lower incidence of crime. However, the factor that could be more powerful and the trigger for the change in trend could be the COVID-19 pandemic, because people's mobility was greatly limited, criminals could not find people to harm, so that the number of crimes committed dropped considerably.
 
-2. Question 2: There is a correlation between crimes committed per entity and GDP. The larger the GDP, the more crimes are committed.
+- Question 2: There is a correlation between crimes committed per entity and GDP. The larger the GDP, the more crimes are committed.
